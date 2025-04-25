@@ -1,6 +1,8 @@
 ninjatracing
 ============
+- Run `just build` and `just run` to run executable.
 
+---
 Convert .ninja_log files to chrome's about:tracing format.
 
 To view traces, either open about:tracing in chrome, or use

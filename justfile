@@ -23,15 +23,15 @@ placeholder args="nothing":
     Write-Host "Havent written build task for this repo." -ForegroundColor Red
     if($env:pwsh_env) {Write-Host "$env:pwsh_env and {{args}} as ``just`` args"}
     else {Write-Host "Apparently no .env as well" -ForegroundColor Yellow}
+alias b := build
+build: 
+    uv run python -m nuitka --standalone ninjatracing.py
 
 # INFO: basic `run` recipe.
 alias r := run
-default_args := 'args here'
-run args=default_args:
-    @Write-Host {{default_args}} -ForegroundColor Red
-
-build: (placeholder "from build") 
-
+default_args := '--help'
+run +args=default_args:
+    ninjatracing.dist/ninjatracing {{args}}
 
 format args="nothing":
     @echo {{ if args == "nothing" {"default_arg"} else { args } }}
@@ -39,5 +39,6 @@ format args="nothing":
 
 var_test := "test format"
 alias t := test
-test *args=var_test: (format args) && (placeholder "'from test'") 
+test:
+    py ./ninjatracing_test.py
     # also something directly test behaviour.
